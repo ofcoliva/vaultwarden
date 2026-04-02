@@ -1,0 +1,47 @@
+services:
+  tailscale:
+    image: tailscale/tailscale:latest
+    container_name: tailscale_container
+    hostname: vaultwarden-server
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATEFUL=true
+      
+    volumes:
+      - ./tailscale-data:/var/lib/tailscale
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+
+    # O comando abaixo gera o certificado ssl na rede privada para acessar o vaultwarden, pois sem ele o servidor vaultwarden não aceitará o acesso.
+    command: >
+      sh -c "
+      tailscaled & 
+      sleep 5 && 
+      tailscale up --authkey=${TS_AUTHKEY} --accept-dns=true && 
+      tailscale serve --bg 80 && 
+      tail -f /dev/null
+      "
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden_container
+    restart: unless-stopped
+    network_mode: "service:tailscale"
+    environment:
+      SIGNUPS_ALLOWED: true
+      ADMIN_TOKEN: ${ADMIN_TOKEN}
+      PASSWORD_ITERATIONS: 1500000
+      
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_SECURITY: "starttls"
+      SMTP_USERNAME: ${SMTP_USERNAME}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      SMTP_FROM: ${SMTP_USERNAME}
+
+    volumes:
+      - ./vw-data:/data
+    depends_on:
+      - tailscale
+    
