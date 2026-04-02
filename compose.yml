@@ -29,7 +29,7 @@ services:
     restart: unless-stopped
     network_mode: "service:tailscale"
     environment:
-      SIGNUPS_ALLOWED: true
+      SIGNUPS_ALLOWED: ${SIGNUPS_ALLOWED}
       ADMIN_TOKEN: ${ADMIN_TOKEN}
       PASSWORD_ITERATIONS: 1500000
       
