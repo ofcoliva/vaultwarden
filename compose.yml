@@ -31,7 +31,7 @@ services:
     environment:
       SIGNUPS_ALLOWED: ${SIGNUPS_ALLOWED}
       ADMIN_TOKEN: ${ADMIN_TOKEN}
-      PASSWORD_ITERATIONS: 1500000
+      PASSWORD_ITERATIONS: 2000000
       
       SMTP_HOST: ${SMTP_HOST}
       SMTP_PORT: ${SMTP_PORT}
@@ -44,4 +44,4 @@ services:
       - ./vw-data:/data
     depends_on:
       - tailscale
-    
+  
