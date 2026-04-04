@@ -21,8 +21,8 @@ Certifique-se de ter o **Docker** e o **Git** instalados em sua máquina.
 ### 1. Preparação do Ambiente
 Clone o repositório e entre no diretório:
 ```bash
-git clone <url-do-repositório>
-cd <nome-projeto>
+git clone https://github.com/ofcoliva/vaultwarden.git
+cd vaultwarden
 ```
 
 Renomeie o arquivo de exemplo para configurar as variáveis de ambiente:
@@ -39,9 +39,20 @@ cp .env-example .env
 ### 3. Gerando o Token de Administrador
 Para acessar o painel administrativo do Vaultwarden, você precisa gerar um hash de senha seguro (Argon2):
 
+Pode ser feito criando um container temporário que irá executar o programa Vaultwarden com a função hash, ou pode optar por entrar no Vscode ou no terminal fazer o acesso remoto ao container do vaultwarden e executar o segundo comando. Fica a seu critério.
+
+Comando 1
 ```bash
 docker run --rm -it vaultwarden/server /vaultwarden hash
 ```
+
+**Ou**
+
+Comando 2
+```bash
+/vaultwarden hash
+```
+
 
 O terminal solicitará uma senha. Após digitar e confirmar, ele retornará uma string começando com `$argon2id$`. Copie essa string inteira e cole no seu `.env` na variável `ADMIN_TOKEN`.
 
@@ -72,7 +83,7 @@ SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_SECURITY=starttls
 SMTP_USERNAME=seu-email@gmail.com
-SMTP_PASSWORD=aquela-senha-de-16-digitos-sem-espaços
+SMTP_PASSWORD=aaaa bbbb cccc dddd
 SMTP_FROM=seu-email@gmail.com
 ```
 
