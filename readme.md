@@ -120,3 +120,17 @@ tailscale_container    | |-- proxy http://localhost:80
 * **Prioridade de Configuração:** Após o primeiro boot, o Vaultwarden passa a priorizar o arquivo `config.json` dentro do volume de dados. Mudanças posteriores devem ser feitas via **Painel Admin** ou editando o `config.json` diretamente.
 
 ---
+
+## Estratégia de Backup
+
+Para este projeto, implementei uma estratégia de backup, automatizada e criptografada que envia os dados diretamente para o Google Drive.
+
+A arquitetura de backup utiliza:
+* **BorgBackup:** Para deduplicação eficiente, compactação e criptografia dos dados localmente.
+* **Rclone:** Para realizar a sincronização segura dos repositórios do Borg para o Google Drive.
+
+O guia detalhado de como configurei essa rotina, incluindo scripts e automações com o cron, está disponível no meu artigo completo:
+
+[Construindo Uma Estratégia De Backup Com Snapshots Usando Borg, Rclone E Google Drive – ofcoliva blog](https://blog.ofcoliva.com.br/posts/7-construindo-uma-estrat%C3%A9gia-de-backup-com-snapshots-usando-borg-rclone-e-google-drive/)
+
+---
